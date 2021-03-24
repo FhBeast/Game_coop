@@ -9,6 +9,7 @@ class Game:
         self.__width = width
         self.__height = height
         self.__screen = pygame.display.set_mode((width, height), pygame.DOUBLEBUF)
+        self.__sprite_manager = SpriteManager()
         self.__clock = pygame.time.Clock()
         self.__fps = 60
         self.__is_working = True
@@ -26,9 +27,8 @@ class Game:
                 self.__close_game()
         return pygame.key.get_pressed()
 
-    @staticmethod
-    def __update(control):
-        sprites = SpriteManager.update_objects(control)
+    def __update(self, control):
+        sprites = self.__sprite_manager.update_objects(control)
         return sprites
 
     def __render(self, sprites):
