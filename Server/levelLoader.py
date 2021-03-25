@@ -1,5 +1,6 @@
-import pygame
+# import pygame
 from level import Level
+from entity import Entity
 
 WALL_WIDTH = 100
 WALL_HEIGHT = 100
@@ -25,15 +26,26 @@ class LevelLoader:
     def load_level(number):
         level = Level()
 
-        file = open('levels.txt')
+        file = open('Server/levels.txt')
+        loading = False
+        y = 0
         for line in file:
-            if line[0] == "/":
-                number -= 1
-            if number == 0:
-                if line[1] == "p":
-                    level.location = "Plain"
+            if not loading:
+                if line[0] == "/":
+                    if number == 0:
+                        if line[1] == "p":
+                            level.location = "Plain"
+                        loading = True
+                    number -= 1
+            else:
+                if line[0] == "e":
+                    break
+                x = 0
+                for col in range(len(line)):
+                    if line[col] == WALL:
+                        entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, "Wall", 1, True)
+                        level.spritesEntity.add(entity)
+                    x += WALL_WIDTH
+                y += WALL_HEIGHT
 
-                x = y = 0
-                for row in range(14):
-                    for col in range(len(line)):
-                        pass
+        return level

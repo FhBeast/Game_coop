@@ -7,3 +7,4 @@ class Level:
         self.spritesBackGround = pygame.sprite.Group()
         self.spritesEntity = pygame.sprite.Group()
         self.spritesEffects = pygame.sprite.Group()
+        self.state = "Running"

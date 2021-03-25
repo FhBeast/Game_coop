@@ -1,5 +1,5 @@
 import pygame
-from spriteManager import SpriteManager
+from clientManager import ClientManager
 
 
 class Game:
@@ -9,7 +9,7 @@ class Game:
         self.__width = width
         self.__height = height
         self.__screen = pygame.display.set_mode((width, height), pygame.DOUBLEBUF)
-        self.__sprite_manager = SpriteManager()
+        self.__sprite_manager = ClientManager()
         self.__clock = pygame.time.Clock()
         self.__fps = 60
         self.__is_working = True
