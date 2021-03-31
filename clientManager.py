@@ -10,15 +10,15 @@ WALL_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'wall.jpg'))
 
 class ClientManager:
     def __init__(self):
-        self.spritesDynamic = pygame.sprite.Group()
-        self.spritesStatic = pygame.sprite.Group()
+        self.__spritesDynamic = pygame.sprite.Group()
+        self.__spritesStatic = pygame.sprite.Group()
         # =============== TEST ====================
         self.level = LevelLoader.load_level(0)
         for sprite in self.level.spritesEntity.sprites():
             sprite.image = WALL_IMG
         for sprite in self.level.spritesEntity:
-            self.spritesStatic.add(sprite)
+            self.__spritesStatic.add(sprite)
         # =========================================
 
     def update_objects(self, control):
-        return self.spritesStatic
+        return self.__spritesStatic

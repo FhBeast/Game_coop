@@ -27,19 +27,22 @@ class LevelLoader:
         level = Level()
 
         file = open('Server/levels.txt')
+
         loading = False
+
         y = 0
         for line in file:
-            if not loading:
-                if line[0] == "/":
-                    if number == 0:
-                        if line[1] == "p":
-                            level.location = "Plain"
-                        loading = True
-                    number -= 1
-            else:
-                if line[0] == "e":
+            if line[0] == "":
+                break
+            elif line[0] == "/":
+                if number == 0:
+                    loading = True
+                    if line[1] == "p":
+                        level.location = "Plain"
+                elif number == -1:
                     break
+                number -= 1
+            elif loading:
                 x = 0
                 for col in range(len(line)):
                     if line[col] == WALL:
