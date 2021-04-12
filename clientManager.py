@@ -12,13 +12,13 @@ class ClientManager:
     def __init__(self):
         self.__spritesDynamic = pygame.sprite.Group()
         self.__spritesStatic = pygame.sprite.Group()
-        # =============== TEST ====================
+        # ================= TEST ====================
         self.level = LevelLoader.load_level(0)
         for sprite in self.level.spritesEntity.sprites():
             sprite.image = WALL_IMG
         for sprite in self.level.spritesEntity:
             self.__spritesStatic.add(sprite)
-        # =========================================
+        # ===========================================
 
     def update_objects(self, control):
         return self.__spritesStatic
