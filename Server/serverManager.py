@@ -1,7 +1,10 @@
 import pygame
+from level import Level
 
 
 class ServerManager:
     def __init__(self):
-        self.__spritesDynamic = pygame.sprite.Group()
-        self.__spritesStatic = pygame.sprite.Group()
+        self.__level = Level()
+
+    def run(self):
+        pass

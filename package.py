@@ -1,7 +1,7 @@
 import pygame
 
 
-class Level:
+class Package:
     def __init__(self):
         self.location = 1  # 1 - Plain, 2 - Desert, 3 - Snow
         self.spritesDynamic = pygame.sprite.Group()
