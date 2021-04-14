@@ -47,7 +47,7 @@ class LevelLoader:
                 for col in range(len(line)):
                     if line[col] == WALL:
                         entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, "Wall", 1, True)
-                        level.spritesEntity.add(entity)
+                        level.spritesStatic.add(entity)
                     x += WALL_WIDTH
                 y += WALL_HEIGHT
 

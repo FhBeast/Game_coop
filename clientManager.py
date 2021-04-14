@@ -14,9 +14,9 @@ class ClientManager:
         self.__spritesStatic = pygame.sprite.Group()
         # ================= TEST ====================
         self.level = LevelLoader.load_level(0)
-        for sprite in self.level.spritesEntity.sprites():
+        for sprite in self.level.spritesStatic.sprites():
             sprite.image = WALL_IMG
-        for sprite in self.level.spritesEntity:
+        for sprite in self.level.spritesStatic:
             self.__spritesStatic.add(sprite)
         # ===========================================
 
