@@ -21,4 +21,5 @@ class ClientManager:
         # ===========================================
 
     def update_objects(self, control):
+
         return self.__spritesStatic

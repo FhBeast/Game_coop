@@ -1,8 +1,10 @@
 from serverManager import ServerManager
 
+PORT = 9090
+
 
 def main():
-    server = ServerManager()
+    server = ServerManager(PORT)
     server.run()
 
 
