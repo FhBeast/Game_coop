@@ -1,10 +1,15 @@
 import pygame
 from level import Level
+from package import Package
 import socket
 
 
 class ServerManager:
     def __init__(self, port):
+        self.location = 1  # 1 - Plain, 2 - Desert, 3 - Snow
+        self.spritesDynamic = pygame.sprite.Group()
+        self.spritesStatic = pygame.sprite.Group()
+        self.state = 1  # 1 - Loading, 2 - Running, 3 - Closing, 4 - Exit
         self.__level = Level()
         self.__sock = socket.socket()
         self.__sock.bind(('', port))
