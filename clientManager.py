@@ -1,35 +1,33 @@
 import pygame
-import os
 import socket
 import pickle
-from Server.levelLoader import LevelLoader
-
-GAME_FOLDER = os.path.dirname(__file__)
-IMG_FOLDER = os.path.join(GAME_FOLDER, 'img')
-
-WALL_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'wall.jpg'))
+from resourseLoader import ResourceLoader
+from clientPackage import ClientPackage
+from operator import attrgetter
 
 
 class ClientManager:
     def __init__(self):
-        self.__spritesDynamic = pygame.sprite.Group()
-        self.__spritesStatic = pygame.sprite.Group()
+        self.__spritesDynamic = []
+        self.__spritesStatic = []
         self.__sock = socket.socket()
         self.__sock.connect(('localhost', 9090))
-        # ================= TEST ====================
-        self.level = LevelLoader.load_level(0)
-        for sprite in self.level.spritesStatic.sprites():
-            sprite.image = WALL_IMG
-        for sprite in self.level.spritesStatic:
-            self.__spritesStatic.add(sprite)
-        # ===========================================
+        self.__package = ClientPackage()
 
     def update_objects(self, control):
-        self.__sock.send(pickle.dumps(control))
-        data = self.__sock.recv(1024)
+        self.__package.control = control
+        self.__sock.send(pickle.dumps(self.__package))
+        data = self.__sock.recv(8192)
         data = pickle.loads(data)
+        if data.state == 1:
+            self.__spritesStatic = data.spritesStatic
+            self.__spritesStatic = ResourceLoader.load_textureStatic(self.__spritesStatic)
+            self.__package.state = 2
 
-        return self.__spritesStatic
+        sprites = pygame.sprite.Group()
+        for entity in sorted(self.__spritesStatic, key=attrgetter('layer')):
+            sprites.add(entity)
+        return sprites
 
     def __disconnect(self):
         self.__sock.close()

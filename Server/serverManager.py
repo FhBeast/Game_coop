@@ -1,27 +1,34 @@
 import pygame
 from level import Level
-from package import Package
 import socket
+import pickle
+from clientPackage import ClientPackage
+from Server.levelLoader import LevelLoader
 
 
 class ServerManager:
     def __init__(self, port):
-        self.location = 1  # 1 - Plain, 2 - Desert, 3 - Snow
-        self.spritesDynamic = pygame.sprite.Group()
-        self.spritesStatic = pygame.sprite.Group()
-        self.state = 1  # 1 - Loading, 2 - Running, 3 - Closing, 4 - Exit
         self.__level = Level()
         self.__sock = socket.socket()
         self.__sock.bind(('', port))
         self.__sock.listen(1)
+        self.__level = LevelLoader.load_level(0)
 
     def run(self):
         conn, addr = self.__sock.accept()
 
         while True:
-            data = conn.recv(1024)
+            data = conn.recv(8192)
             if not data:
                 break
-            conn.send(data.upper())
 
+            data = pickle.loads(data)
+            self.__level.state = data.state
+
+            level = self.__level
+            data = pickle.dumps(level)
+
+            conn.send(data)
+
+        conn.close()
         return addr

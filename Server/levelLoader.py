@@ -26,7 +26,7 @@ class LevelLoader:
     def load_level(number):
         level = Level()
 
-        file = open('Server/levels.txt')
+        file = open('levels.txt')
 
         loading = False
 
@@ -46,8 +46,8 @@ class LevelLoader:
                 x = 0
                 for col in range(len(line)):
                     if line[col] == WALL:
-                        entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, "Wall", 1, True)
-                        level.spritesStatic.add(entity)
+                        entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 1, "Wall", True)
+                        level.spritesStatic.append(entity)
                     x += WALL_WIDTH
                 y += WALL_HEIGHT
 
