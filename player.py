@@ -13,6 +13,8 @@ class Player(Entity):
 
     def __init__(self, x, y, playerID):
         Entity.__init__(self, x, y, WIDTH, HEIGHT, 2, "Player", True)
+        self.rect.bottom += 100 - HEIGHT
+        self.rect.centerx += 50 - (WIDTH / 2)
         self.playerID = playerID
         self.anim = 0
         self.speed = 0
@@ -53,12 +55,12 @@ class Player(Entity):
             self.__attackCooldown -= 1
 
         self.rect.y += self.speedFall  # Двигаемся по оси y
-        self.collide(0, self.speedFall, platforms)  # Проверяем пересекаемся ли мы с чем-нибудь
+        self.collider(0, self.speedFall, platforms)  # Проверяем пересекаемся ли мы с чем-нибудь
 
         self.rect.x += self.speed  # Двигаемся по оси x
-        self.collide(self.speed, 0, platforms)  # Проверяем пересекаемся ли мы с чем-нибудь
+        self.collider(self.speed, 0, platforms)  # Проверяем пересекаемся ли мы с чем-нибудь
 
-    def collide(self, speed_x, speed_y, platforms):
+    def collider(self, speed_x, speed_y, platforms):
         for platform in platforms:
             if pygame.sprite.collide_rect(self, platform) and platform != self:  # Если есть пересечение
 

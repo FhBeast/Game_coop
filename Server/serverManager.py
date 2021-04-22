@@ -25,6 +25,22 @@ class ServerManager:
 
             data = pickle.loads(data)
             self.__level.state = data.state
+            left = data.left
+            right = data.right
+            jump = data.jump
+            attack = data.attack
+
+            if self.__level.state == 1:
+                for entity in self.__level.spritesStatic:
+                    if entity.collide:
+                        self.__collidingObjects.append(entity)
+                for entity in self.__level.spritesDynamic:
+                    if entity.collide:
+                        self.__collidingObjects.append(entity)
+
+            for entity in self.__level.spritesDynamic:
+                if entity.name == "Player":
+                    entity.update(left, right, jump, attack, self.__collidingObjects)
 
             level = self.__level
             data = pickle.dumps(level)

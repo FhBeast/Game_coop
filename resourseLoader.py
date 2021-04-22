@@ -7,6 +7,7 @@ IMG_FOLDER = os.path.join(GAME_FOLDER, 'img')
 
 WALL_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'wall.jpg'))
 BG_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'bg2.jpg'))
+PLAYER_1 = pygame.image.load(os.path.join(IMG_FOLDER, 'idle.png'))
 
 
 class ResourceLoader:
@@ -21,4 +22,12 @@ class ResourceLoader:
                 entity.image = WALL_IMG
             if entity.name == "Bg_plain":
                 entity.image = BG_IMG
+        return entities
+
+    @staticmethod
+    def load_textureDynamic(entities):
+        for entity in entities:
+            entity.image = WALL_IMG
+            if entity.name == "Player":
+                entity.image = PLAYER_1
         return entities

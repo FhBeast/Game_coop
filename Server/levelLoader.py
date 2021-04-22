@@ -1,6 +1,7 @@
 # import pygame
 from level import Level
 from entity import Entity
+from player import Player
 
 WALL_WIDTH = 100
 WALL_HEIGHT = 100
@@ -10,7 +11,7 @@ PLATFORM_HEIGHT = 30
 
 WALL = "="
 PLATFORM = "-"
-PLAYER = "P"
+PLAYER_1 = "1"
 DOOR = "D"
 DOOR_LOCKED = "L"
 KEY = "K"
@@ -48,6 +49,9 @@ class LevelLoader:
                     if line[col] == WALL:
                         entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 1, "Wall", True)
                         level.spritesStatic.append(entity)
+                    if line[col] == PLAYER_1:
+                        player = Player(x, y, 1)
+                        level.spritesDynamic.append(player)
                     x += WALL_WIDTH
                 y += WALL_HEIGHT
 
