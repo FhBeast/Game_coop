@@ -9,6 +9,7 @@ from Server.levelLoader import LevelLoader
 class ServerManager:
     def __init__(self, port):
         self.__level = Level()
+        self.__collidingObjects = []
         self.__sock = socket.socket()
         self.__sock.bind(('', port))
         self.__sock.listen(1)
