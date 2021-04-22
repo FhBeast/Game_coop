@@ -24,8 +24,9 @@ class ClientManager:
             self.__spritesStatic = ResourceLoader.load_textureStatic(self.__spritesStatic)
             self.__package.state = 2
 
+        entities = self.__spritesStatic + self.__spritesDynamic
         sprites = pygame.sprite.Group()
-        for entity in sorted(self.__spritesStatic, key=attrgetter('layer')):
+        for entity in sorted(entities, key=attrgetter('layer')):
             sprites.add(entity)
         return sprites
 
