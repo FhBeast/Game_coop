@@ -2,7 +2,6 @@ import pygame
 from level import Level
 import socket
 import pickle
-from clientPackage import ClientPackage
 from Server.levelLoader import LevelLoader
 
 
@@ -12,7 +11,11 @@ class ServerManager:
         self.__collidingObjects = []
         self.__sock = socket.socket()
         self.__sock.bind(('', port))
-        self.__sock.listen(1)
+        self.__sock.listen(2)
+        self.__loadingLevel = False
+        self.__stateFirst = 1
+        self.__stateSecond = 1
+        
         self.__level = LevelLoader.load_level(0)
 
     def run(self):
@@ -24,19 +27,20 @@ class ServerManager:
                 break
 
             data = pickle.loads(data)
-            self.__level.state = data.state
+
             left = data.left
             right = data.right
             jump = data.jump
             attack = data.attack
 
-            if self.__level.state == 1:
+            if not self.__loadingLevel:
                 for entity in self.__level.spritesStatic:
                     if entity.collide:
                         self.__collidingObjects.append(entity)
                 for entity in self.__level.spritesDynamic:
                     if entity.collide:
                         self.__collidingObjects.append(entity)
+                self.__loadingLevel = True
 
             for entity in self.__level.spritesDynamic:
                 if entity.name == "Player":

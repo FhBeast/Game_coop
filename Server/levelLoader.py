@@ -12,6 +12,7 @@ PLATFORM_HEIGHT = 30
 WALL = "="
 PLATFORM = "-"
 PLAYER_1 = "1"
+PLAYER_2 = "2"
 DOOR = "D"
 DOOR_LOCKED = "L"
 KEY = "K"
@@ -51,6 +52,9 @@ class LevelLoader:
                         level.spritesStatic.append(entity)
                     if line[col] == PLAYER_1:
                         player = Player(x, y, 1)
+                        level.spritesDynamic.append(player)
+                    if line[col] == PLAYER_2:
+                        player = Player(x, y, 2)
                         level.spritesDynamic.append(player)
                     x += WALL_WIDTH
                 y += WALL_HEIGHT

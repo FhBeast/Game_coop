@@ -13,6 +13,8 @@ class ClientManager:
         self.__sock = socket.socket()
         self.__sock.connect(('localhost', 9090))
         self.__package = ClientPackage()
+        self.__playerID = 1
+        self.__state = 1
         self.number = 0
 
     def update_objects(self, control):
@@ -31,6 +33,8 @@ class ClientManager:
         self.__package.left = left
         self.__package.right = right
         self.__package.jump = jump
+        self.__package.state = self.__state
+        self.__package.playerId = self.__playerID
         self.__sock.send(pickle.dumps(self.__package))
         data = self.__sock.recv(8192)
         data = pickle.loads(data)
