@@ -9,4 +9,3 @@ class ClientPackage:
         self.use = False
         self.attack = False
         self.state = 1  # 1 - Loading, 2 - Running
-        self.playerId = 0

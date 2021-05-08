@@ -13,9 +13,7 @@ class ServerManager:
         self.__sock.bind(('', port))
         self.__sock.listen(2)
         self.__loadingLevel = False
-        self.__stateFirst = 1
-        self.__stateSecond = 1
-        
+
         self.__level = LevelLoader.load_level(0)
 
     def run(self):
@@ -23,33 +21,21 @@ class ServerManager:
         conn2, addr2 = self.__sock.accept()
 
         while True:
-            # ТУТ КОСТЫЛЬ ДЛЯ ПРОВЕРКИ !!! НУЖНА МНОГОПОТОЧНОСТЬ!!!!
             data = conn.recv(8192)
             data2 = conn2.recv(8192)
             if not data:
                 break
 
-            left_one = False
-            right_one = False
-            jump_one = False
-            attack_one = False
-            left_two = False
-            right_two = False
-            jump_two = False
-            attack_two = False
-
             data = pickle.loads(data)
             data2 = pickle.loads(data2)
-            if data.playerId == 1:
-                left_one = data.left
-                right_one = data.right
-                jump_one = data.jump
-                attack_one = data.attack
-            if data2.playerId == 2:
-                left_two = data2.left
-                right_two = data2.right
-                jump_two = data2.jump
-                attack_two = data2.attack
+            left_one = data.left
+            right_one = data.right
+            jump_one = data.jump
+            attack_one = data.attack
+            left_two = data2.left
+            right_two = data2.right
+            jump_two = data2.jump
+            attack_two = data2.attack
 
             if not self.__loadingLevel:
                 for entity in self.__level.spritesStatic:
