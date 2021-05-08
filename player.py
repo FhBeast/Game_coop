@@ -11,11 +11,11 @@ ATTACK_COOLDOWN = 15
 
 class Player(Entity):
 
-    def __init__(self, x, y, playerID):
+    def __init__(self, x, y, playerId):
         Entity.__init__(self, x, y, WIDTH, HEIGHT, 2, "Player", False)
         self.rect.bottom += 100 - HEIGHT
         self.rect.centerx += 50 - (WIDTH / 2)
-        self.playerID = playerID
+        self.playerId = playerId
         self.anim = 0
         self.speed = 0
         self.speedFall = 0

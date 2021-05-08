@@ -20,18 +20,36 @@ class ServerManager:
 
     def run(self):
         conn, addr = self.__sock.accept()
+        conn2, addr2 = self.__sock.accept()
 
         while True:
+            # ТУТ КОСТЫЛЬ ДЛЯ ПРОВЕРКИ !!! НУЖНА МНОГОПОТОЧНОСТЬ!!!!
             data = conn.recv(8192)
+            data2 = conn2.recv(8192)
             if not data:
                 break
 
-            data = pickle.loads(data)
+            left_one = False
+            right_one = False
+            jump_one = False
+            attack_one = False
+            left_two = False
+            right_two = False
+            jump_two = False
+            attack_two = False
 
-            left = data.left
-            right = data.right
-            jump = data.jump
-            attack = data.attack
+            data = pickle.loads(data)
+            data2 = pickle.loads(data2)
+            if data.playerId == 1:
+                left_one = data.left
+                right_one = data.right
+                jump_one = data.jump
+                attack_one = data.attack
+            if data2.playerId == 2:
+                left_two = data2.left
+                right_two = data2.right
+                jump_two = data2.jump
+                attack_two = data2.attack
 
             if not self.__loadingLevel:
                 for entity in self.__level.spritesStatic:
@@ -44,12 +62,15 @@ class ServerManager:
 
             for entity in self.__level.spritesDynamic:
                 if entity.name == "Player":
-                    entity.update(left, right, jump, attack, self.__collidingObjects)
+                    if entity.playerId == 1:
+                        entity.update(left_one, right_one, jump_one, attack_one, self.__collidingObjects)
+                    elif entity.playerId == 2:
+                        entity.update(left_two, right_two, jump_two, attack_two, self.__collidingObjects)
 
             level = self.__level
             data = pickle.dumps(level)
-
             conn.send(data)
+            conn2.send(data)
 
         conn.close()
-        return addr
+        return
