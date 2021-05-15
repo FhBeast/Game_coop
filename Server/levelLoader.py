@@ -2,6 +2,7 @@
 from level import Level
 from entity import Entity
 from player import Player
+from door import Door
 
 WALL_WIDTH = 100
 WALL_HEIGHT = 100
@@ -13,8 +14,10 @@ WALL = "="
 PLATFORM = "-"
 PLAYER_1 = "1"
 PLAYER_2 = "2"
-DOOR = "D"
-DOOR_LOCKED = "L"
+DOOR_1 = "R"
+DOOR_2 = "B"
+DOOR_1_LOCKED = "r"
+DOOR_2_LOCKED = "b"
 KEY = "K"
 SHRUB = "*"
 BOX = "B"
@@ -47,6 +50,7 @@ class LevelLoader:
             elif loading:
                 x = 0
                 for col in range(len(line)):
+                    # ===================================================================
                     if line[col] == WALL:
                         entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 1, "Wall", True)
                         level.spritesStatic.append(entity)
@@ -56,6 +60,10 @@ class LevelLoader:
                     if line[col] == PLAYER_2:
                         player = Player(x, y, 2)
                         level.spritesDynamic.append(player)
+                    if line[col] == DOOR_1:
+                        player = Player(x, y, 2)
+                        level.spritesDynamic.append(player)
+                    # ===================================================================
                     x += WALL_WIDTH
                 y += WALL_HEIGHT
 
