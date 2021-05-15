@@ -6,7 +6,8 @@ WIDTH = 52
 HEIGHT = 90
 JUMP_POWER = 17
 GRAVITY = 0.7
-ATTACK_COOLDOWN = 15
+MAX_FRAME = 5
+ANIMATION_DECELERATION = 3
 
 
 class Player(Entity):
@@ -19,40 +20,39 @@ class Player(Entity):
         self.anim = 0
         self.speed = 0
         self.speedFall = 0
-        self.__lookRight = True
+        self.lookRight = True
         self.fall = True
-        self.__attackNow = False
-        self.__attackCooldown = 0
-        self.__key = False
+        self.key = False
+        self.state = 0  # 0 - default, 1 - jump, 2 - run
+        self.frame = 0
 
-    def update(self, left, right, jump, attack, platforms):
+    def update(self, left, right, jump, platforms):
+        if not (left ^ right):
+            self.state = 0
+            self.frame = 0
+            self.speed = 0
+        else:
+            self.state = 2
+            if self.frame < MAX_FRAME:
+                self.frame += 1 / ANIMATION_DECELERATION
+            else:
+                self.frame = 0
+            if left:  # идем влево
+                self.lookRight = False
+                self.speed = -RUN_SPEED
+            elif right:  # идем вправо
+                self.lookRight = True
+                self.speed = RUN_SPEED
+
         if jump:  # Прыжок
+            self.state = 1
             if not self.fall:
                 self.speedFall = -JUMP_POWER
-
-        if left:  # идем влево
-            self.__lookRight = False
-            self.speed = -RUN_SPEED
-
-        if right:  # идем вправо
-            self.__lookRight = True
-            self.speed = RUN_SPEED
-
-        if not (left or right):  # стоим, когда не идем
-            self.speed = 0
 
         if self.fall:  # Если падаем, то увеличиваем скорость падения
             self.speedFall += GRAVITY
 
         self.fall = True  # Падаем каждый раз. Если падать не нужно, коллайдеры это исправят
-
-        self.__attackNow = False  # Обработка атаки
-        if attack:
-            if not self.__attackCooldown:
-                self.__attackCooldown = ATTACK_COOLDOWN
-                self.__attackNow = True
-        if self.__attackCooldown > 0:
-            self.__attackCooldown -= 1
 
         self.rect.y += self.speedFall  # Двигаемся по оси y
         self.collider(0, self.speedFall, platforms)  # Проверяем пересекаемся ли мы с чем-нибудь

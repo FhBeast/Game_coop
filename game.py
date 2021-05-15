@@ -11,7 +11,7 @@ class Game:
         self.__screen = pygame.display.set_mode((width, height), pygame.DOUBLEBUF)
         self.__sprite_manager = ClientManager()
         self.__clock = pygame.time.Clock()
-        self.__fps = 60
+        self.__fps = 120
         self.__is_working = True
 
     def run_game(self):

@@ -10,7 +10,7 @@ class ClientManager:
     def __init__(self):
         self.__spritesDynamic = []
         self.__spritesStatic = []
-        self.__sock = socket.socket()
+        self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__sock.connect(('localhost', 9090))
         self.__package = ClientPackage()
         self.__playerID = 1
