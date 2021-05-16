@@ -69,12 +69,10 @@ class ServerManager:
             for entity in self.__level.spritesDynamic:
                 if isinstance(entity, Door):
                     if entity.is_locked:
-                        if entity.playerId == 1 and self.__playerFirst.key\
-                                and pygame.sprite.collide_rect(self.__playerFirst, entity):
+                        if self.__playerFirst.key and pygame.sprite.collide_rect(self.__playerFirst, entity):
                             entity.is_locked = False
                             self.__playerFirst.key = False
-                        elif entity.playerId == 2 and self.__playerSecond.key\
-                                and pygame.sprite.collide_rect(self.__playerSecond, entity):
+                        elif self.__playerSecond.key and pygame.sprite.collide_rect(self.__playerSecond, entity):
                             entity.is_locked = False
                             self.__playerSecond.key = False
                     else:
@@ -86,9 +84,11 @@ class ServerManager:
                     if pygame.sprite.collide_rect(self.__playerFirst, entity) and not self.__playerFirst.key:
                         self.__playerFirst.key = True
                         entity.picked()
+                        self.__level.spritesDynamic.remove(entity)
                     elif pygame.sprite.collide_rect(self.__playerSecond, entity) and not self.__playerSecond.key:
                         self.__playerSecond.key = True
                         entity.picked()
+                        self.__level.spritesDynamic.remove(entity)
 
             if exit_first and exit_second:
                 self.__levelNumber += 1
