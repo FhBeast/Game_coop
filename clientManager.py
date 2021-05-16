@@ -13,9 +13,8 @@ class ClientManager:
         self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__sock.connect(('localhost', 9090))
         self.__package = ClientPackage()
-        self.__playerID = 1
         self.__state = 1
-        self.number = 0
+        self.__number = -1
 
     def update_objects(self, control):
         left = right = False
@@ -33,21 +32,18 @@ class ClientManager:
         self.__package.left = left
         self.__package.right = right
         self.__package.jump = jump
-        self.__package.state = self.__state
-        self.__package.playerId = self.__playerID
         self.__sock.send(pickle.dumps(self.__package))
         data = self.__sock.recv(8192)
         data = pickle.loads(data)
-        if data.state == 1:
+        if data.number == self.__number:
+            self.__spritesDynamic = data.spritesDynamic
+            self.__spritesDynamic = ResourceLoader.load_textureDynamic(self.__spritesDynamic)
+        else:
             self.__spritesStatic = data.spritesStatic
             self.__spritesStatic = ResourceLoader.load_textureStatic(self.__spritesStatic)
             self.__spritesDynamic = data.spritesDynamic
             self.__spritesDynamic = ResourceLoader.load_textureDynamic(self.__spritesDynamic)
-            self.__package.state = 2
-        if data.state == 2:
-            self.__spritesDynamic = data.spritesDynamic
-            self.__spritesDynamic = ResourceLoader.load_textureDynamic(self.__spritesDynamic)
-            self.number += 1
+            data.number = self.__number
 
         entities = self.__spritesStatic + self.__spritesDynamic
         sprites = pygame.sprite.Group()

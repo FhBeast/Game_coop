@@ -5,7 +5,21 @@ from entity import Entity
 GAME_FOLDER = os.path.dirname(__file__)
 IMG_FOLDER = os.path.join(GAME_FOLDER, 'img')
 
+NONE = pygame.image.load(os.path.join(IMG_FOLDER, 'none.png'))
+
 WALL_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'wall.jpg'))
+WALL_GRASS_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'wall_grass.jpg'))
+
+PLATFORM_SINGLE = pygame.image.load(os.path.join(IMG_FOLDER, 'platform_single.png'))
+PLATFORM_RIGHT = pygame.image.load(os.path.join(IMG_FOLDER, 'platform_right.png'))
+PLATFORM_LEFT = pygame.image.load(os.path.join(IMG_FOLDER, 'platform_left.png'))
+PLATFORM_CENTER = pygame.image.load(os.path.join(IMG_FOLDER, 'platform_center.png'))
+
+SHRUB = pygame.image.load(os.path.join(IMG_FOLDER, 'shrub.png'))
+
+STONE = pygame.image.load(os.path.join(IMG_FOLDER, 'stone.png'))
+STONE_SMALL = pygame.image.load(os.path.join(IMG_FOLDER, 'stone_small.png'))
+
 BG_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'bg2.jpg'))
 
 ANIMATION_STAY_RIGHT = pygame.image.load(os.path.join(IMG_FOLDER, 'idle.png'))
@@ -31,6 +45,11 @@ ANIMATION2_RUN_RIGHT = [pygame.image.load(os.path.join(IMG_FOLDER, 'idle2_run.pn
                         pygame.image.load(os.path.join(IMG_FOLDER, 'idle2_run6.png'))]
 ANIMATION2_RUN_LEFT = [pygame.transform.flip(image, True, False) for image in ANIMATION2_RUN_RIGHT]
 
+DOOR_1 = pygame.image.load(os.path.join(IMG_FOLDER, 'door1.png'))
+DOOR_2 = pygame.image.load(os.path.join(IMG_FOLDER, 'door2.png'))
+DOOR_1_LOCKED = pygame.image.load(os.path.join(IMG_FOLDER, 'door1_locked.png'))
+DOOR_2_LOCKED = pygame.image.load(os.path.join(IMG_FOLDER, 'door2_locked.png'))
+
 
 class ResourceLoader:
     @staticmethod
@@ -39,47 +58,74 @@ class ResourceLoader:
         entities.append(entity)
 
         for entity in entities:
-            entity.image = WALL_IMG
+            entity.image = NONE
             if entity.name == "Wall":
                 entity.image = WALL_IMG
-            if entity.name == "Bg_plain":
+            elif entity.name == "WallGrass":
+                entity.image = WALL_GRASS_IMG
+            elif entity.name == "Platform0":
+                entity.image = PLATFORM_SINGLE
+            elif entity.name == "Platform1":
+                entity.image = PLATFORM_RIGHT
+            elif entity.name == "Platform2":
+                entity.image = PLATFORM_LEFT
+            elif entity.name == "Platform3":
+                entity.image = PLATFORM_CENTER
+            elif entity.name == "Shrub":
+                entity.image = SHRUB
+            elif entity.name == "Stone":
+                entity.image = STONE
+            elif entity.name == "StoneSmall":
+                entity.image = STONE_SMALL
+            elif entity.name == "Bg_plain":
                 entity.image = BG_IMG
         return entities
 
     @staticmethod
     def load_textureDynamic(entities):
         for entity in entities:
-            entity.image = WALL_IMG
-            if entity.name == "Player":
+            entity.image = NONE
+            if entity.name == "Door":
+                if entity.playerId == 1:
+                    if entity.is_locked:
+                        entity.image = DOOR_1_LOCKED
+                    else:
+                        entity.image = DOOR_1
+                else:
+                    if entity.is_locked:
+                        entity.image = DOOR_2_LOCKED
+                    else:
+                        entity.image = DOOR_2
+            elif entity.name == "Player":
                 if entity.playerId == 1:
                     if entity.lookRight:
                         if entity.state == 0:
                             entity.image = ANIMATION_STAY_RIGHT
-                        if entity.state == 1:
+                        elif entity.state == 1:
                             entity.image = ANIMATION_JUMP_RIGHT
-                        if entity.state == 2:
+                        elif entity.state == 2:
                             entity.image = ANIMATION_RUN_RIGHT[int(entity.frame)]
                     else:
                         if entity.state == 0:
                             entity.image = ANIMATION_STAY_LEFT
-                        if entity.state == 1:
+                        elif entity.state == 1:
                             entity.image = ANIMATION_JUMP_LEFT
-                        if entity.state == 2:
+                        elif entity.state == 2:
                             entity.image = ANIMATION_RUN_LEFT[int(entity.frame)]
                 else:
                     if entity.lookRight:
                         if entity.state == 0:
                             entity.image = ANIMATION2_STAY_RIGHT
-                        if entity.state == 1:
+                        elif entity.state == 1:
                             entity.image = ANIMATION2_JUMP_RIGHT
-                        if entity.state == 2:
+                        elif entity.state == 2:
                             entity.image = ANIMATION2_RUN_RIGHT[int(entity.frame)]
                     else:
                         if entity.state == 0:
                             entity.image = ANIMATION2_STAY_LEFT
-                        if entity.state == 1:
+                        elif entity.state == 1:
                             entity.image = ANIMATION2_JUMP_LEFT
-                        if entity.state == 2:
+                        elif entity.state == 2:
                             entity.image = ANIMATION2_RUN_LEFT[int(entity.frame)]
 
         return entities

@@ -14,16 +14,16 @@ WALL = "="
 PLATFORM = "-"
 PLAYER_1 = "1"
 PLAYER_2 = "2"
-DOOR_1 = "R"
-DOOR_2 = "B"
-DOOR_1_LOCKED = "r"
-DOOR_2_LOCKED = "b"
-KEY = "K"
+DOOR_1 = "R"            # NO FUNCTIONALITY
+DOOR_2 = "B"            # NO FUNCTIONALITY
+DOOR_1_LOCKED = "r"     # NO FUNCTIONALITY
+DOOR_2_LOCKED = "b"     # NO FUNCTIONALITY
+KEY = "K"               # NO
 SHRUB = "*"
-BOX = "B"
+BOX = "B"               # NO
 STONE = "#"
 STONE_SMALL = "_"
-CRYSTAL = "+"
+CRYSTAL = "+"           # NO
 
 
 class LevelLoader:
@@ -34,6 +34,7 @@ class LevelLoader:
         file = open('levels.txt')
 
         loading = False
+        pre_line = "=============="
 
         y = 0
         for line in file:
@@ -52,19 +53,51 @@ class LevelLoader:
                 for col in range(len(line)):
                     # ===================================================================
                     if line[col] == WALL:
-                        entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 1, "Wall", True)
+                        if pre_line[col] != WALL:
+                            entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 1, "WallGrass", True)
+                        else:
+                            entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 1, "Wall", True)
                         level.spritesStatic.append(entity)
-                    if line[col] == PLAYER_1:
+                    elif line[col] == PLATFORM:
+                        variant = 0
+                        if col:
+                            if line[col - 1] == PLATFORM or line[col - 1] == WALL:
+                                variant += 1
+                        if col + 1 != len(line):
+                            if line[col + 1] == PLATFORM or line[col + 1] == WALL:
+                                variant += 2
+                        platform = Entity(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT, 1, "Platform" + str(variant), True)
+                        level.spritesStatic.append(platform)
+                    elif line[col] == SHRUB:
+                        entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 3, "Shrub", False)
+                        level.spritesStatic.append(entity)
+                    elif line[col] == STONE:
+                        entity = Entity(x, y, WALL_WIDTH, WALL_HEIGHT, 1, "Stone", True)
+                        level.spritesStatic.append(entity)
+                    elif line[col] == STONE_SMALL:
+                        entity = Entity(x, y + 70, WALL_WIDTH, 30, 1, "StoneSmall", True)
+                        level.spritesStatic.append(entity)
+                    elif line[col] == PLAYER_1:
                         player = Player(x, y, 1)
                         level.spritesDynamic.append(player)
-                    if line[col] == PLAYER_2:
+                    elif line[col] == PLAYER_2:
                         player = Player(x, y, 2)
                         level.spritesDynamic.append(player)
-                    if line[col] == DOOR_1:
-                        player = Player(x, y, 2)
-                        level.spritesDynamic.append(player)
+                    elif line[col] == DOOR_1:
+                        door = Door(x, y, 1, False)
+                        level.spritesDynamic.append(door)
+                    elif line[col] == DOOR_2:
+                        door = Door(x, y, 2, False)
+                        level.spritesDynamic.append(door)
+                    elif line[col] == DOOR_1_LOCKED:
+                        door = Door(x, y, 1, True)
+                        level.spritesDynamic.append(door)
+                    elif line[col] == DOOR_2_LOCKED:
+                        door = Door(x, y, 2, True)
+                        level.spritesDynamic.append(door)
                     # ===================================================================
                     x += WALL_WIDTH
+                pre_line = line
                 y += WALL_HEIGHT
 
         return level
