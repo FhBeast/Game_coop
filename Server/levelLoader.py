@@ -80,7 +80,7 @@ class LevelLoader:
                         level.spritesStatic.append(entity)
                     elif line[col] == KEY:
                         key = Key(x, y)
-                        level.spritesStatic.append(key)
+                        level.spritesDynamic.append(key)
                     elif line[col] == PLAYER_1:
                         player = Player(x, y, 1)
                         level.spritesDynamic.append(player)
