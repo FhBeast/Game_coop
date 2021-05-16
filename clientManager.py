@@ -1,7 +1,7 @@
 import pygame
 import socket
 import pickle
-from resourseLoader import ResourceLoader
+from resourceLoader import ResourceLoader
 from clientPackage import ClientPackage
 from operator import attrgetter
 
