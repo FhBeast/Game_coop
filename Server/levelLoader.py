@@ -30,7 +30,7 @@ class LevelLoader:
     def load_level(number):
         level = Level()
 
-        file = open('levels.txt')
+        file = open('Server/levels.txt')
 
         loading = False
         pre_line = "=============="
