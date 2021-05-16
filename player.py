@@ -13,7 +13,7 @@ ANIMATION_DECELERATION = 3
 class Player(Entity):
 
     def __init__(self, x, y, playerId):
-        Entity.__init__(self, x, y, WIDTH, HEIGHT, 2, "Player", False)
+        Entity.__init__(self, x, y, WIDTH, HEIGHT, 2, "Player", True)
         self.rect.bottom += 100 - HEIGHT
         self.rect.centerx += 50 - (WIDTH / 2)
         self.playerId = playerId
