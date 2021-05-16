@@ -3,13 +3,13 @@ from clientManager import ClientManager
 
 
 class Game:
-    def __init__(self, width, height):
+    def __init__(self, width, height, port):
         pygame.init()
         pygame.mixer.init()
         self.__width = width
         self.__height = height
         self.__screen = pygame.display.set_mode((width, height), pygame.DOUBLEBUF)
-        self.__sprite_manager = ClientManager()
+        self.__sprite_manager = ClientManager(port)
         self.__clock = pygame.time.Clock()
         self.__fps = 120
         self.__is_working = True
