@@ -79,8 +79,6 @@ class ResourceLoader:
                 entity.image = STONE
             elif entity.name == "StoneSmall":
                 entity.image = STONE_SMALL
-            elif entity.name == "Key":
-                entity.image = KEY
             elif entity.name == "Bg_plain":
                 entity.image = BG_IMG
         return entities
@@ -100,6 +98,8 @@ class ResourceLoader:
                         entity.image = DOOR_2_LOCKED
                     else:
                         entity.image = DOOR_2
+            elif entity.name == "Key":
+                entity.image = KEY
             elif entity.name == "Player":
                 if entity.playerId == 1:
                     if entity.lookRight:
