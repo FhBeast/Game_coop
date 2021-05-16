@@ -3,6 +3,7 @@ from level import Level
 from entity import Entity
 from player import Player
 from door import Door
+from key import Key
 
 WALL_WIDTH = 100
 WALL_HEIGHT = 100
@@ -77,6 +78,9 @@ class LevelLoader:
                     elif line[col] == STONE_SMALL:
                         entity = Entity(x, y + 70, WALL_WIDTH, 30, 1, "StoneSmall", True)
                         level.spritesStatic.append(entity)
+                    elif line[col] == KEY:
+                        key = Key(x, y)
+                        level.spritesStatic.append(key)
                     elif line[col] == PLAYER_1:
                         player = Player(x, y, 1)
                         level.spritesDynamic.append(player)
