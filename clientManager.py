@@ -7,11 +7,11 @@ from operator import attrgetter
 
 
 class ClientManager:
-    def __init__(self):
+    def __init__(self, port):
         self.__spritesDynamic = []
         self.__spritesStatic = []
         self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.__sock.connect(('localhost', 9090))
+        self.__sock.connect(('localhost', port))
         self.__package = ClientPackage()
         self.__state = 1
         self.__number = -1
