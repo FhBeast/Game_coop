@@ -15,16 +15,14 @@ WALL = "="
 PLATFORM = "-"
 PLAYER_1 = "1"
 PLAYER_2 = "2"
-DOOR_1 = "R"            # NO FUNCTIONALITY
-DOOR_2 = "B"            # NO FUNCTIONALITY
-DOOR_1_LOCKED = "r"     # NO FUNCTIONALITY
-DOOR_2_LOCKED = "b"     # NO FUNCTIONALITY
-KEY = "K"               # NO
+DOOR_1 = "R"
+DOOR_2 = "B"
+DOOR_1_LOCKED = "r"
+DOOR_2_LOCKED = "b"
+KEY = "K"
 SHRUB = "*"
-BOX = "B"               # NO
 STONE = "#"
 STONE_SMALL = "_"
-CRYSTAL = "+"           # NO
 
 
 class LevelLoader:
