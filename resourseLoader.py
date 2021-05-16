@@ -20,6 +20,8 @@ SHRUB = pygame.image.load(os.path.join(IMG_FOLDER, 'shrub.png'))
 STONE = pygame.image.load(os.path.join(IMG_FOLDER, 'stone.png'))
 STONE_SMALL = pygame.image.load(os.path.join(IMG_FOLDER, 'stone_small.png'))
 
+KEY = pygame.image.load(os.path.join(IMG_FOLDER, 'key.png'))
+
 BG_IMG = pygame.image.load(os.path.join(IMG_FOLDER, 'bg2.jpg'))
 
 ANIMATION_STAY_RIGHT = pygame.image.load(os.path.join(IMG_FOLDER, 'idle.png'))
@@ -77,6 +79,8 @@ class ResourceLoader:
                 entity.image = STONE
             elif entity.name == "StoneSmall":
                 entity.image = STONE_SMALL
+            elif entity.name == "Key":
+                entity.image = KEY
             elif entity.name == "Bg_plain":
                 entity.image = BG_IMG
         return entities
