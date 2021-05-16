@@ -6,6 +6,8 @@ import socket
 import pickle
 import threading
 from Server.levelLoader import LevelLoader
+from player import Player
+from door import Door
 
 
 class ServerManager:
@@ -22,14 +24,16 @@ class ServerManager:
         self.__clientData = bytes()
         self.__clientData2 = bytes()
         self.__serverData = bytes()
-
-        self.__level = LevelLoader.load_level(0)
+        self.__levelNumber = 0
+        self.__playerFirst = Player
+        self.__playerSecond = Player
+        self.__level = LevelLoader.load_level(self.__levelNumber)
 
     def update(self):
         while True:
             self.__clock.tick(self.__tickRate)
-            if not (self.__clientData and self.__clientData2):
-                continue
+            while not (self.__clientData and self.__clientData2):
+                time.sleep(0.1)
 
             data = pickle.loads(self.__clientData)
             data2 = pickle.loads(self.__clientData2)
@@ -50,18 +54,38 @@ class ServerManager:
                 for entity in self.__level.spritesDynamic:
                     if entity.collide:
                         self.__collidingObjects.append(entity)
+                    if isinstance(entity, Player):
+                        if entity.playerId == 1:
+                            self.__playerFirst = entity
+                        elif entity.playerId == 2:
+                            self.__playerSecond = entity
                 self.__loadingLevel = True
 
+            exit_first = False
+            exit_second = False
+            self.__playerFirst.update(left_one, right_one, jump_one, self.__collidingObjects)
+            self.__playerSecond.update(left_two, right_two, jump_two, self.__collidingObjects)
             for entity in self.__level.spritesDynamic:
-                if entity.name == "Player":
-                    if entity.playerId == 1:
-                        entity.update(left_one, right_one, jump_one, self.__collidingObjects)
-                    elif entity.playerId == 2:
-                        entity.update(left_two, right_two, jump_two, self.__collidingObjects)
+                if isinstance(entity, Door):
+                    if entity.is_locked:
+                        if entity.playerId == 1 and self.__playerFirst.key\
+                                and pygame.sprite.collide_rect(self.__playerFirst, entity):
+                            entity.is_locked = False
+                        elif entity.playerId == 2 and self.__playerSecond.key\
+                                and pygame.sprite.collide_rect(self.__playerSecond, entity):
+                            entity.is_locked = False
+                    else:
+                        if entity.playerId == 1 and pygame.sprite.collide_rect(self.__playerFirst, entity):
+                            exit_first = True
+                        elif entity.playerId == 2 and pygame.sprite.collide_rect(self.__playerSecond, entity):
+                            exit_second = True
+
+            if exit_first and exit_second:
+                self.__levelNumber += 1
+                self.__loadingLevel = False
+                self.__level = LevelLoader.load_level(self.__levelNumber)
 
             self.__serverData = pickle.dumps(self.__level)
-
-        return
 
     def data_receiving(self):
         conn, addr = self.__sock.accept()
