@@ -52,6 +52,8 @@ DOOR_2 = pygame.image.load(os.path.join(IMG_FOLDER, 'door2.png'))
 DOOR_1_LOCKED = pygame.image.load(os.path.join(IMG_FOLDER, 'door1_locked.png'))
 DOOR_2_LOCKED = pygame.image.load(os.path.join(IMG_FOLDER, 'door2_locked.png'))
 
+THE_END = pygame.image.load(os.path.join(IMG_FOLDER, 'the_end.png'))
+
 
 class ResourceLoader:
     @staticmethod
@@ -79,6 +81,8 @@ class ResourceLoader:
                 entity.image = STONE
             elif entity.name == "StoneSmall":
                 entity.image = STONE_SMALL
+            elif entity.name == "TheEnd":
+                entity.image = THE_END
             elif entity.name == "Bg_plain":
                 entity.image = BG_IMG
         return entities
