@@ -23,6 +23,7 @@ KEY = "K"
 SHRUB = "*"
 STONE = "#"
 STONE_SMALL = "_"
+THE_END = "E"
 
 
 class LevelLoader:
@@ -75,6 +76,9 @@ class LevelLoader:
                         level.spritesStatic.append(entity)
                     elif line[col] == STONE_SMALL:
                         entity = Entity(x, y + 70, WALL_WIDTH, 30, 1, "StoneSmall", True)
+                        level.spritesStatic.append(entity)
+                    elif line[col] == THE_END:
+                        entity = Entity(x, y, 800, 100, 4, "TheEnd", False)
                         level.spritesStatic.append(entity)
                     elif line[col] == KEY:
                         key = Key(x, y)
