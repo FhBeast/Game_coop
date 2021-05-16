@@ -90,12 +90,24 @@ class ServerManager:
                         entity.picked()
                         self.__level.spritesDynamic.remove(entity)
 
+            if self.__playerFirst.rect.top > 1000:
+                self.restart_level()
+            elif self.__playerSecond.rect.top > 1000:
+                self.restart_level()
+
             if exit_first and exit_second:
-                self.__levelNumber += 1
-                self.__loadingLevel = False
-                self.__level = LevelLoader.load_level(self.__levelNumber)
+                self.next_level()
 
             self.__serverData = pickle.dumps(self.__level)
+
+    def restart_level(self):
+        self.__loadingLevel = False
+        self.__level = LevelLoader.load_level(self.__levelNumber)
+
+    def next_level(self):
+        self.__levelNumber += 1
+        self.__loadingLevel = False
+        self.__level = LevelLoader.load_level(self.__levelNumber)
 
     def data_receiving(self):
         conn, addr = self.__sock.accept()
